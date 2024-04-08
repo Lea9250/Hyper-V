@@ -1,0 +1,12 @@
+{
+    "displayName" : "hyperV",
+    "author" : ["Léa Droguet"],
+    "contributor" : [""],
+    "supportedAgent" : ["Windows"],
+    "version" : "1.0",
+    "licence" : "GPLv2",
+    "description" : {
+      "fr" : "Hyper-V inventory",
+      "en" : "Hyper-V inventory"
+    }
+  }
