@@ -21,32 +21,40 @@ print_item_header($l->g(56665));
 if (!isset($protectedPost['SHOW'])) {
     $protectedPost['SHOW'] = 'NOSHOW';
 }
-$form_name = "hyperv";
+
+$form_name = "HYPERV";
 $table_name = $form_name;
 $tab_options = $protectedPost;
 $tab_options['form_name'] = $form_name;
 $tab_options['table_name'] = $table_name;
 echo open_form($form_name, '', '', 'form-horizontal');
-$list_fields = array('HOST NAME' => 'h.NAME',
-    'STATUS VM' => 'hv.STATE',
-    'CPU VM' => 'hv.CPU_USAGE',
-    'BIOS VM' => 'hv.BIOS_STARTUPORDER',
-    'NETWORK' => 'hv.NETWORK_NAME',
+$list_fields = array(
+    'HOST NAME' => 'h.NAME',
     'VM NAME' => 'hv.VMNAME',
+    'OCS ASSET ID' => 'n.HARDWARE_ID',
+    'ID' => 'hv.VMID',
+    'IP' => 'hv.IPADDRESS',
+    'MACADDRESS' => 'hv.MACADDRESS',
+    'STATUS' => 'hv.STATUS',
+    'STATE' => 'hv.STATE',
+    'VERSION' => 'hv.VERSION',
+    'UPTIME' => 'hv.UPTIME',
+    'MEMORY ASSIGNED' => 'hv.MEMORYASSIGNED',
+    'CPU USAGE' => 'hv.CPU_USAGE',
 );
 $list_col_cant_del = $list_fields;
-$tab_options['LIEN_LBL']['HOST NAME'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_computer'] . '&head=1&&cat=other&systemid=';
+$tab_options['LIEN_LBL']['HOST NAME'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_computer'] . '&head=1&cat=other&systemid=';
 $tab_options['LIEN_CHAMP']['HOST NAME'] = 'hostID';
-$tab_options['LIEN_LBL']['VM NAME'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_computer'] . '&head=1&systemid=';
-$tab_options['LIEN_CHAMP']['VM NAME'] = 'h.NAME';
+$tab_options['LIEN_LBL']['OCS ASSET ID'] = 'index.php?' . PAG_INDEX . '=' . $pages_refs['ms_computer'] . '&head=1&cat=other&systemid=';
+$tab_options['LIEN_CHAMP']['OCS ASSET ID'] = 'guestID';
 
 $default_fields = $list_fields;
 
 $sql = prepare_sql_tab($list_fields);
-$sql['SQL'] .= ",h.ID, h.NAME, hv.HARDWARE_ID as hostID FROM HYPERV_VMS hv left join hardware h on h.ID=hv.HARDWARE_ID";
-array_push($sql['ARG'], $systemid);
+# TODO : chanhge reconciliation ?
+$sql['SQL'] .= ",n.HARDWARE_ID as guestID, h.NAME, hv.HARDWARE_ID as hostID FROM HYPERV hv left join hardware h on h.ID=hv.HARDWARE_ID left join networks n on (hv.MACADDRESS=n.MACADDR and hv.IPADDRESS=n.IPADDRESS)";
+
 $tab_options['ARG_SQL'] = $sql['ARG'];
-$tab_options['ARG_SQL_COUNT'] = $systemid;
 ajaxtab_entete_fixe($list_fields, $default_fields, $tab_options, $list_col_cant_del);
 echo close_form();
 if (AJAX) {
