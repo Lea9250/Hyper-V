@@ -8,7 +8,6 @@ function extension_install_hyperV() {
 
     $commonObject -> sqlQuery("DROP TABLE `HYPERV`");
 
-    // TODO : hyper v dummy data for now
     $commonObject -> sqlQuery("CREATE TABLE `HYPERV` (
                           `ID` INT(11) NOT NULL AUTO_INCREMENT,
                           `HARDWARE_ID` INT(11) NOT NULL,

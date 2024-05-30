@@ -15,4 +15,16 @@
 
 ## Description
 
-Hyper-V inventory
+Hyper-V inventory plugin. 
+
+Plugin's agent script must be installed on a server with Hyper-V capabilities enabled.
+
+This plugin adds two pages to the OCS Inventory web interface :
+- Hyper-V Inventory : List all Hyper-V VMs with references to host inventory and VM inventory.
+- Hyper-V details : Displays either a link to the host inventory or the VMs inventories depending on the asset type. Available under computer details, `Miscellaneous` tab.
+
+Commands are executed on the Hyper-V host :
+- `Get-VM` : List all VMs.
+- `Get-VMNetworkAdapter` : List all network adapters for a VM.
+
+Reconciliation with an existing asset within OCS is done using the VM IP address and MAC address.
